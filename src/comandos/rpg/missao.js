@@ -18,11 +18,11 @@ module.exports = {
           messages: [
             {
               role: 'system',
-              content: 'You generate RPG quests.'
+              content: 'Você gera quests de RPG.'
             },
             {
               role: 'user',
-              content: 'Create a short RPG quest with: Title, Objective, Location, NPC, Reward.'
+              content: 'Crie uma missão curta de RPG com: Titulo, Objetivo, Local, NPC, Recompensa.'
             }
           ]
         },

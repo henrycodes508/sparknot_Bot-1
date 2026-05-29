@@ -9,14 +9,17 @@ module.exports = {
 !ping — Testa o bot
 !cachorro — Imagem de cachorro
 !gato — Imagem de gato
-!meme(Em Breve) — Memes Resenha BR 🇧🇷
-!memena — Meme Norte Americano
-!shitpost(Em Breve) — Humor de Qualidade duvidosa
 !ppt <opção> — Pedra, papel e tesoura
+!moeda — Jogue uma moeda cara ou coroa
 
 **🎲 RPG**
-!rolar <dado> — Ex: !roll d20 / !roll 2d6 vantagem
+!narrar <texto> — A IA toma a frente e narra algo para o grupo
+!rolar <dado> — Ex: !rolar d20 / !roll 2d6 vantagem/ 2d20 + 5 v
 !missao — Missão aleatória
+!ambiente <texto>— Toca uma música ambiente baseada em tags
+!registroficha criar <nome> — Criar ficha de RPG
+!registroficha ver — Ver ficha de RPG
+!registroficha set <campo> <valor> — Editar ficha de RPG
 
 **🎵 Música**
 !letra <nome da música> — Ver letra de música

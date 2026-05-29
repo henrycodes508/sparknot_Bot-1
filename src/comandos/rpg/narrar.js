@@ -7,6 +7,10 @@ const client = new OpenAI({
 const musics =
   require('../../data/musics.json');
 
+// histórico curto da campanha
+const history =
+  require('../../data/history');
+
 module.exports = {
   name: ['narrar', 'nar', 'narra'],
 
@@ -18,6 +22,22 @@ module.exports = {
       return msg.reply(
         'Use: !narrar ação'
       );
+    }
+
+    // histórico por servidor
+    const guildId = msg.guild.id;
+
+    if (!history.has(guildId)) {
+      history.set(guildId, []);
+    }
+
+    const actions =
+      history.get(guildId);
+
+    actions.push(action);
+
+    if (actions.length > 10) {
+      actions.shift();
     }
 
     try {
@@ -35,7 +55,7 @@ module.exports = {
 
           input: `
           
-Você é um mestre de RPG estilo D&D 5e. Comece uma história, descrevendo o ambiente, sons e atmosfera de forma imersiva e cinematográfica. Use as seguintes
+Você é um mestre de RPG estilo D&D 5e.
 
 REGRAS:
 - Narre de forma imersiva
@@ -54,6 +74,21 @@ tag1, tag2, tag3
 
 [NARRAÇÃO]
 texto aqui
+
+HISTÓRICO RECENTE:
+
+${actions.join('\n')}
+
+REGRAS DAS TAGS:
+- Gere entre 3 e 6 tags
+- Use locais, clima, emoções e ambiente
+- Prefira palavras simples
+- Exemplos:
+taberna, taverna, floresta,
+cidade, castelo, combate,
+caverna, mercado, chuva,
+neve, templo, inferno,
+deserto, porto, masmorra
 
 AÇÃO DO JOGADOR:
 "${action}"
@@ -89,7 +124,15 @@ AÇÃO DO JOGADOR:
           ? narrationMatch[1].trim()
           : text;
 
-      // busca melhor músicaD
+      // mistura tags da IA com palavras da ação
+      const searchTags = [
+        ...tags,
+        ...action
+          .toLowerCase()
+          .split(/\s+/)
+      ];
+
+      // busca melhor música
       let bestMusic = null;
       let bestScore = 0;
 
@@ -97,12 +140,24 @@ AÇÃO DO JOGADOR:
 
         let score = 0;
 
-        for (const tag of tags) {
+        // busca mais inteligente
+        for (const searchTag of searchTags) {
 
-          if (
-            music.tags.includes(tag)
-          ) {
-            score++;
+          for (const musicTag of music.tags) {
+
+            const a =
+              searchTag.toLowerCase();
+
+            const b =
+              musicTag.toLowerCase();
+
+            if (
+              a === b ||
+              a.includes(b) ||
+              b.includes(a)
+            ) {
+              score++;
+            }
           }
         }
 
@@ -113,8 +168,25 @@ AÇÃO DO JOGADOR:
         }
       }
 
-      // toca música automaticamente
+      // logs para debug
+      console.log(
+        '[TAGS]',
+        searchTags
+      );
+
       if (bestMusic) {
+
+        console.log(
+          '[MUSICA]',
+          bestMusic.title
+        );
+      }
+
+      // toca música automaticamente
+      if (
+        bestMusic &&
+        bestScore > 0
+      ) {
 
         try {
 
