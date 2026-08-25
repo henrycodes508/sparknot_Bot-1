@@ -1,17 +1,17 @@
 {
-  "nome": "Kael",
+  "nome": "henry",
   "nivel": 1,
   "xp": 0,
   "hp": 10,
   "hpMax": 10,
-  "classe": "Guerreiro",
+  "classe": "Nenhuma",
   "raca": "Nenhuma",
   "atributos": {
     "for": 10,
     "des": 10,
     "con": 10,
     "int": 10,
-    "sab": 15,
+    "sab": 10,
     "car": 10
   },
   "moedas": {
